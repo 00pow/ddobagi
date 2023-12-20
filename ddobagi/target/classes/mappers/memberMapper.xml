@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- /mappers/memberMapper.xml -->
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+  
+  <!--    namespace정보는 외부에서 해당 mapper(xml)를 찾을 수 있는 이름 / mapper태그 안에는 주석달면 안된다. -->
+  <mapper namespace="com.ddobagi.mapper.MemberMapper">
+  
+  
+    <resultMap type="com.ddobagi.domain.MemberVO" id="memberMap">
+  	<id property="userid" column="userid"/>
+  	<result property="userid" column="userid"/>
+  	<result property="userpw" column="userpw"/>
+  	<result property="username" column="username"/>
+  	<result property="regdate" column="regdate"/>
+  	<result property="updatedate" column="updatedate"/>
+  	<collection property="authList" resultMap="authMap"></collection>
+  </resultMap>
+  
+  <resultMap type="com.ddobagi.domain.AuthVO" id="authMap">
+  	<result property="userid" column="userid"/>
+  	<result property="auth" column="auth"/>
+  </resultMap>
+  
+  	<select id="getTime" resultType="string">
+  		select now()
+  	</select>
+  
+
+  <insert id="insertMember">
+  	insert into tbl_member(userid,userpw,username,useremail) 
+  	values(#{userid},#{userpw},#{username},#{useremail})
+  </insert>
+  
+  <select id="loginMember" resultType="com.ddobagi.domain.MemberVO">
+  	select * from tbl_member 
+  	where userid=#{userid} and userpw=#{userpw}
+  </select>
+  
+  <select id="getMember" resultType="MemberVO">
+  	select * from tbl_member
+  	where userid=#{userid}
+  </select>
+  
+  <update id="updateMember" >
+  	update tbl_member set username=#{username},updatedate=now() 
+  	where userid=#{userid} and userpw=#{userpw}
+  
+  </update>
+  
+  <delete id="deleteMember">
+  	delete from tbl_member
+  	where userid=#{userid} and userpw=#{userpw}
+  	</delete>
+  
+  <select id="getMemberList" resultType="com.ddobagi.domain.MemberVO">
+  	select * from tbl_member
+  	where userid != 'admin'
+  </select>
+  
+  <select id="getMemberAuth">
+  	select
+  		mem.userid, userpw, username, enabled, regdate, auth
+  		from
+  		tbl_member mem LEFT JOIN tbl_member_auth auth on mem.userid = auth.userid
+  		where mem.userid = #{userid}
+  </select>
+  
+  
+  </mapper>
+  

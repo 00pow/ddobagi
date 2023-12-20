@@ -1,4 +1,4 @@
-package com.ddobagi.board;
+package com.ddobagi.controller;
 
 import java.text.DateFormat;
 import java.util.Date;
