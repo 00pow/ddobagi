@@ -40,6 +40,9 @@ public class CommonsController {
 		logger.debug("로그아웃 처리(+세션 초기화) ");
 	}
 	
+	// 회원가입 설정
+	
+	
 	
 
 }
